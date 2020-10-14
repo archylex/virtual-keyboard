@@ -1,0 +1,124 @@
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.intro {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    background: url("assets/space.jpg") center no-repeat;
+    background-size: cover;
+}
+
+.use-keyboard-input {
+    position: fixed;
+    height: 37%;
+    width: 50%;
+    margin: 30px;
+    border-radius: 50px;
+    padding: 20px;
+    border: 3px solid #98f0ff;;
+    color: white;
+    font-size: 24px;
+    background-color: rgba(0, 0, 0, 0.37);
+    z-index: 1000;
+}
+
+.keyboard {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;    
+    user-select: none;
+    transition: bottom 0.4s;
+}
+
+.vk-hidden {
+    bottom: -100%;
+}
+
+.vk-keys {
+    text-align: center;
+}
+
+.vk-key {
+    position:relative;
+    width: 50px;
+    height: 55px; /*width + 10%*/
+    max-width: 90px;
+    margin: 5px;
+    border: none;
+    color: #ffffff;
+    font-size: 1.05rem;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: top;
+    padding: 0;
+    line-height: 0;
+    -webkit-tap-highlight-color: transparent;
+    position: relative;
+}
+
+
+/* new hex */
+
+.vk-key-hexagon_part {
+    display: flex;
+    position: absolute;
+    left: 0;
+    bottom:25%;
+    right:0;
+    height:50%;
+    border-left: 3px solid #98f0ff;
+    border-right: 3px solid #98f0ff;        
+    transition: background-color .2s; 
+}
+
+.vk-key:hover .vk-key-hexagon_part {
+    background: #98f0ff;    
+}
+
+.vk-key:hover .vk-key-text {
+    color: #333333;
+}
+
+.vk-key-on .vk-key-hexagon_part {
+    background: #46d9bd;    
+}
+
+.vk-key-on .vk-key-text {
+    color: #333333;
+}
+
+.vk-key-active .vk-key-hexagon_part {
+    background: #98f0ff;    
+}
+
+.vk-key-active .vk-key-text {
+    color: #333333;
+}
+
+.vk-key-text {
+    margin: auto;
+    color:#98f0ff;
+}
+
+.vk-key div:nth-child(1) {
+  -webkit-transform: rotate(60deg);
+          transform: rotate(60deg);
+}
+.vk-key div:nth-child(2) {
+  -webkit-transform: rotate(120deg);
+          transform: rotate(120deg);
+}
+.vk-key div:nth-child(3) {
+  -webkit-transform: rotate(0deg);
+          transform: rotate(0deg);
+}
