@@ -2,7 +2,7 @@ class TextBox {
     constructor(css) {
         this.textarea = document.createElement('textarea');
         this.textarea.classList.add(css.inputClass);
-        this.textarea.value = this.value;
+        this.textarea.value = '';
         document.querySelectorAll('.intro')[0].appendChild(this.textarea);
     }
 
