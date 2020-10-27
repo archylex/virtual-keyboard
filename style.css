@@ -5,12 +5,17 @@
     padding: 0;
 }
 
+*:focus,
+*:active {
+    outline: none;
+}
+
 .intro {
     width: 100vw;
     height: 100vh;
     display: flex;
     justify-content: center;
-    background: url("assets/space.jpg") center no-repeat;
+    background: url("assets/02.jpg") center no-repeat;
     background-size: cover;
 }
 
@@ -19,13 +24,27 @@
     height: 37%;
     width: 50%;
     margin: 30px;
-    border-radius: 50px;
+    /*border-radius: 50px;*/
     padding: 20px;
-    border: 3px solid #98f0ff;;
-    color: white;
+    /*border: 3px solid #98f0ff;;*/
+    border: 0;
+    color: #98f0ff;
     font-size: 24px;
-    background-color: rgba(0, 0, 0, 0.37);
+    /*font-family: 'Share Tech Mono', monospace;*/
+    font-family: 'Ubuntu Mono', monospace;    
+    /*background-color: rgba(0, 0, 0, 0.7);*/
+    background-color: rgba(150, 240, 255, 0.3);
     z-index: 1000;
+        
+    -webkit-clip-path: polygon(5% 0%, 100% 0%, 100% 90%, 95% 100%, 0% 100%, 0% 10%);
+    clip-path: polygon(5% 0%, 100% 0%, 100% 90%, 95% 100%, 0% 100%, 0% 10%);
+
+    -ms-overflow-style: none;
+    scrollbar-width: none;  
+}
+
+.use-keyboard-input::-webkit-scrollbar {
+    display: none;
 }
 
 .keyboard {
@@ -35,6 +54,7 @@
     width: 100%;    
     user-select: none;
     transition: bottom 0.4s;
+    background: linear-gradient(0deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
 }
 
 .vk-hidden {
@@ -121,4 +141,8 @@
 .vk-key div:nth-child(3) {
   -webkit-transform: rotate(0deg);
           transform: rotate(0deg);
+}
+
+.shift_correct {
+    width: 25px;
 }
