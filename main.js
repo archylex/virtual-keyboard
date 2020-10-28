@@ -8,15 +8,13 @@ window.addEventListener('DOMContentLoaded', () => {
         keyXWideClass: 'vk-key-x-wide',
         inputClass: 'use-keyboard-input'
     }
-
     const textarea = new TextBox(classProps);
     const keyboard = new Keyboard(classProps, textarea);
     keyboard.hide();       
     
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
-        
-        /*if (keyName != 'Shift' && keyName != 'Alt' && keyName != 'Control' && keyName != 'Tab' && keyName != 'Enter' && keyName != 'Backspace')*/
+
         if (keyName.length === 1) {
             nowLang = ((keyName.charCodeAt(0) >= 97 && keyName.charCodeAt(0) <= 122) || (keyName.charCodeAt(0) >= 65 && keyName.charCodeAt(0) <= 90)) ? 'en' : 'ru';
                
