@@ -37,7 +37,11 @@ window.addEventListener('DOMContentLoaded', () => {
                     keyboard.createNewKeys();
                 }
             }
-        })
+        });
+        const space = document.querySelector('.big_key');
+        if (space.getAttribute('name') === keyName) {
+            space.classList.add('big_key-active');
+        }
     }, false);
 
     document.addEventListener('keyup', (event) => {
@@ -54,6 +58,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 e.classList.toggle('vk-key-on', keyboard.properties.shift);
                 keyboard.createNewKeys();
             }
-        })
+        });
+        const space = document.querySelector('.big_key');
+        if (space.getAttribute('name') === keyName) {
+            space.classList.remove('big_key-active');
+        }
     }, false);
 })

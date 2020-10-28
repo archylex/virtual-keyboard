@@ -73,7 +73,7 @@ class Keyboard {
             'tab', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']',
             'caps', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '\\', 'enter',
             'shift', 'z', 'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 'left', 'right',
-            'lang', 'space', 'done', 'sound'            
+            'sound', 'shit', 'lang', 'space', 'done'
         ];
         const enBreakLine = ['backspace', ']', 'enter', 'right'];
         const enShiftLayout = [
@@ -81,7 +81,7 @@ class Keyboard {
             'tab', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',
             'caps', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '|', 'enter',
             'shift', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 'left', 'right',
-            'lang', 'space', 'done', 'sound'             
+            'sound', 'shit', 'lang', 'space', 'done'             
         ];
         const enShiftBreakLine = ['backspace', '}', 'enter', 'right'];
         const ruLayout = [
@@ -89,7 +89,7 @@ class Keyboard {
             'tab', 'й', 'ц', 'у', 'к', 'е', 'н', 'г', 'ш', 'щ', 'з', 'х', 'ъ',
             'caps', 'ф', 'ы', 'в', 'а', 'п', 'р', 'о', 'л', 'д', 'ж', 'э', '\\', 'enter',
             'shift', 'я', 'ч', 'с', 'м', 'и', 'т', 'ь', 'б', 'ю', '.', 'left', 'right',
-            'lang', 'space', 'done', 'sound'             
+            'sound', 'shit', 'lang', 'space', 'done'
         ];
         const ruBreakLine = ['backspace', 'ъ', 'enter', 'right'];
         const ruShiftLayout = [
@@ -97,7 +97,7 @@ class Keyboard {
             'tab', 'Й', 'Ц', 'У', 'К', 'Е', 'Н', 'Г', 'Ш', 'Щ', 'З', 'Х', 'Ъ',
             'caps', 'Ф', 'Ы', 'В', 'А', 'П', 'Р', 'О', 'Л', 'Д', 'Ж', 'Э', '/', 'enter',
             'shift', 'Я', 'Ч', 'С', 'М', 'И', 'Т', 'Ь', 'Б', 'Ю', ',', 'left', 'right',
-            'lang', 'space', 'done', 'sound'             
+            'sound', 'shit', 'lang', 'space', 'done'             
         ];
         const ruShiftBreakLine = ['backspace', 'Ъ', 'enter', 'right'];
 
@@ -161,6 +161,7 @@ class Keyboard {
             const hexagonPart = document.createElement('div');
             const keyText = document.createElement('p');
             const insertLineBreak = breakLine.indexOf(key) !== -1;
+            let skip = false;
             
             keyElement.classList.add(this.cssClasses.keyClass);
             hexagonPart.classList.add(this.cssClasses.hexagonPart);
@@ -222,6 +223,17 @@ class Keyboard {
                     break;
                 case 'lang':
                     keyText.innerHTML = createIconHTML('language');
+                    keyElement.setAttribute('name', 'lang');
+                    keyElement.addEventListener('mousedown', () => {
+                        this.properties.lang = this.properties.lang === 'en' ? 'ru' : 'en';    
+                        this.createNewKeys();       
+                        this.rec.lang = lang[this.properties.lang];                 
+                        if (this.properties.sound)
+                            this.audio.lang.play(); 
+                    });
+                    break;
+                case 'shit':
+                    keyText.textContent = this.properties.lang;
                     keyElement.setAttribute('name', 'lang');
                     keyElement.addEventListener('mousedown', () => {
                         this.properties.lang = this.properties.lang === 'en' ? 'ru' : 'en';    
@@ -294,10 +306,23 @@ class Keyboard {
                     });
                     break;
                 case 'space':
-                    keyText.classList.add(this.cssClasses.keyXWideClass);
-                    keyText.innerHTML = createIconHTML('space_bar');
-                    keyElement.setAttribute('name', ' ');
-                    keyElement.addEventListener('mousedown', () => {                        
+                    const linePart = document.createElement('div');
+                    linePart.classList.add('vk_part_key-hexagon_part');
+                    const lineTxt = document.createElement('div');
+                    lineTxt.classList.add('vk_part_key-hexagon_part_txt');
+                    lineTxt.innerHTML = createIconHTML('space_bar');
+                    const keyPart = document.createElement('div');
+                    keyPart.classList.add('vk_part_key');
+                    keyPart.appendChild(linePart);
+                    keyPart.appendChild(linePart.cloneNode(true));
+                    const bigKey = document.createElement('div');
+                    bigKey.classList.add('big_key');
+                    bigKey.appendChild(keyPart);
+                    bigKey.appendChild(keyPart.cloneNode(true));
+                    bigKey.appendChild(keyPart.cloneNode(true));
+                    bigKey.appendChild(lineTxt);
+                    bigKey.setAttribute('name', ' ');
+                    bigKey.addEventListener('mousedown', () => {                        
                         if (this.properties.sound) {
                             if (this.properties.lang === 'en')
                                 this.audio.type.play();   
@@ -305,14 +330,16 @@ class Keyboard {
                                 this.audio.typeru.play();
                         }
                     });
-                    keyElement.addEventListener('mouseup', () => {  
+                    bigKey.addEventListener('mouseup', () => {  
                         this.textArea.typeText(' ');
                     });
+                    fragment.appendChild(bigKey);
+                    skip = true;           
                     break;            
                 case 'done':
                     keyText.innerHTML = createIconHTML('check_circle');
                     keyElement.setAttribute('name', 'Escape');
-                    keyElement.addEventListener('mousedown', () => {
+                    keyElement.addEventListener('mouseup', () => {
                         this.hide();                        
                     });
                     break;                        
@@ -351,7 +378,8 @@ class Keyboard {
                     break;            
             }
 
-            fragment.appendChild(keyElement);
+            if (!skip)
+                fragment.appendChild(keyElement);
 
             if (insertLineBreak)
                 fragment.appendChild(document.createElement('br'));
