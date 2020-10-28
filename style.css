@@ -289,4 +289,25 @@
         margin: 1px;     
         font-size: 14px;
     }
+    
+    .big_key {
+        width: 99px;
+        height: 36px;
+        margin-top: 1px;
+        margin-left: 3px;
+        margin-right: 3px;
+        font-size: 14px;
+    }
+    
+    .vk_part_key {
+        width: 33px;
+        height: 36px; /*width + 10%*/
+        max-width: 50px;
+        margin: 1px;     
+        font-size: 14px;
+    }
+    
+    .big_key:hover {
+        transform: scale(1.03);
+    }
 }
