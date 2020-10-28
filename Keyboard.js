@@ -44,23 +44,19 @@ class Keyboard {
 
     constructor(inputClasses, textArea) {
         this.textArea = textArea;
-
         this.setDiffClasses(inputClasses, this.cssClasses);
-
         this.elements.main = document.createElement('div');
         this.elements.keyContainer = document.createElement('div');
-
         this.elements.main.classList.add(this.cssClasses.keyboardClass, this.cssClasses.hiddenClass);
         this.elements.keyContainer.classList.add(this.cssClasses.keysClass);
         this.elements.keyContainer.appendChild(this._createKeys());
-
         this.elements.keys = this.elements.keyContainer.querySelectorAll('.' + this.cssClasses.keyClass);
-
         this.elements.main.appendChild(this.elements.keyContainer);
         document.body.appendChild(this.elements.main);
 
         this.textArea.listener = () => {
-            this.show(this.textArea.text, currentValue => {this.textArea.text = currentValue})
+            if (!this.properties.show)
+                this.show();
         }
     }
 
