@@ -8,19 +8,28 @@ window.addEventListener('DOMContentLoaded', () => {
         keyXWideClass: 'vk-key-x-wide',
         inputClass: 'use-keyboard-input'
     }
-
     const textarea = new TextBox(classProps);
     const keyboard = new Keyboard(classProps, textarea);
     keyboard.hide();       
     
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
+
+        if (keyName.length === 1) {
+            nowLang = ((keyName.charCodeAt(0) >= 97 && keyName.charCodeAt(0) <= 122) || (keyName.charCodeAt(0) >= 65 && keyName.charCodeAt(0) <= 90)) ? 'en' : 'ru';
+               
+            if (keyboard.properties.lang != nowLang) {
+                keyboard.properties.lang = nowLang;
+                keyboard.createNewKeys();
+            }
+        }
+                
         const keysHTML = document.querySelectorAll('.vk-key');
 
         textarea.textarea.focus();
 
         keysHTML.forEach(e => {
-            if (e.getAttribute('name') == keyName) {                
+            if (e.getAttribute('name') == keyName) { 
                 e.classList.add('vk-key-active');
                 if (keyName === 'Escape') {
                     keyboard.hide();
