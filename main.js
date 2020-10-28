@@ -15,12 +15,23 @@ window.addEventListener('DOMContentLoaded', () => {
     
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
+        
+        /*if (keyName != 'Shift' && keyName != 'Alt' && keyName != 'Control' && keyName != 'Tab' && keyName != 'Enter' && keyName != 'Backspace')*/
+        if (keyName.length === 1) {
+            nowLang = ((keyName.charCodeAt(0) >= 97 && keyName.charCodeAt(0) <= 122) || (keyName.charCodeAt(0) >= 65 && keyName.charCodeAt(0) <= 90)) ? 'en' : 'ru';
+               
+            if (keyboard.properties.lang != nowLang) {
+                keyboard.properties.lang = nowLang;
+                keyboard.createNewKeys();
+            }
+        }
+                
         const keysHTML = document.querySelectorAll('.vk-key');
 
         textarea.textarea.focus();
 
         keysHTML.forEach(e => {
-            if (e.getAttribute('name') == keyName) {                
+            if (e.getAttribute('name') == keyName) { 
                 e.classList.add('vk-key-active');
                 if (keyName === 'Escape') {
                     keyboard.hide();

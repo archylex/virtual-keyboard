@@ -204,10 +204,11 @@ class Keyboard {
                     keyElement.setAttribute('name', 'CapsLock');
                     keyElement.classList.toggle('vk-key-on', this.properties.capsLock);
                     keyElement.addEventListener('mousedown', () => {
-                        this.properties.capsLock = !this.properties.capsLock;
+                        this.properties.capsLock = !this.properties.capsLock;                        
                         keyElement.classList.toggle('vk-key-on', this.properties.capsLock);
                         if (this.properties.sound)
                             this.audio.caps.play(); 
+                        this.createNewKeys();
                     });
                     break;
                 case 'enter':
@@ -298,9 +299,9 @@ class Keyboard {
                         this.createNewKeys();
                         keyElement.classList.toggle('vk-key-on', this.properties.shift);
                         if (this.properties.shift) 
-                            this._createKeys('en', true);
+                            this._createKeys();
                         else
-                            this._createKeys('en', false);
+                            this._createKeys();
                         if (this.properties.sound)
                             this.audio.shift.play();     
                     });
