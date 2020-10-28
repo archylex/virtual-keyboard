@@ -160,6 +160,107 @@
     width: 25px;
 }
 
+/* spacebar */
+
+.big_key {
+    width: 150px;
+    height: 55px;
+    margin: 15px;
+    margin-top: 5px;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;   
+    border: none;    
+    -webkit-tap-highlight-color: transparent;
+    position: relative;     
+    transform: scale(1);   
+    transition: transform 0.3s;
+}
+
+.big_key:hover {
+    transform: scale(1.1);
+}
+
+.big_key:active {
+    transform: scale(0.85);
+}
+
+.vk_part_key {
+    position: relative;
+    width: 50px;
+    height: 55px; /*width + 10%*/
+    border: none;
+    outline: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    -webkit-tap-highlight-color: transparent;    
+}
+
+.vk_part_key-hexagon_part {
+    display: flex;
+    position: absolute;
+    left: 0;
+    bottom:25%;
+    right:0;
+    height:50%;
+    border-left: 3px solid #98f0ff;
+    border-right: 3px solid #98f0ff;        
+    transition: background-color .2s; 
+}
+
+.vk_part_key-hexagon_part_txt {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 0;
+    bottom:25%;
+    right:0;
+    height:50%;
+    color: #98f0ff;
+    border-left: 3px solid #98f0ff;
+    border-right: 3px solid #98f0ff;        
+    transition: background-color .2s; 
+}
+
+.vk_part_key div:nth-child(1) {
+  -webkit-transform: rotate(60deg);
+          transform: rotate(60deg);
+}
+.vk_part_key div:nth-child(2) {
+  -webkit-transform: rotate(120deg);
+          transform: rotate(120deg);
+}
+
+.big_key:hover .vk_part_key .vk_part_key-hexagon_part {
+    background: #98f0ff;    
+}
+
+.big_key:hover .vk_part_key-hexagon_part_txt {
+    color: #333333;
+    background: #98f0ff; 
+}
+
+.big_key:active .vk_part_key .vk_part_key-hexagon_part {
+    background: #98f0ff;    
+}
+
+.big_key:active .vk_part_key-hexagon_part_txt {
+    color: #333333;
+    background: #98f0ff; 
+}
+
+.big_key-active .vk_part_key .vk_part_key-hexagon_part {
+    background: #98f0ff;    
+}
+
+.big_key-active .vk_part_key-hexagon_part_txt {
+    color: #333333;
+    background: #98f0ff; 
+}
+
 /* rec hover and active */
 
 .vk-key-on-rec .vk-key-hexagon_part {
