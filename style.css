@@ -21,11 +21,11 @@
 
 .use-keyboard-input {
     position: fixed;
-    height: 37%;
-    width: 50%;
-    margin: 30px;
+    height: 49%;
+    width: 80%;
+    margin: 2%;
     /*border-radius: 50px;*/
-    padding: 20px;
+    padding: 30px;
     /*border: 3px solid #98f0ff;;*/
     border: 0;
     color: #98f0ff;
@@ -33,7 +33,8 @@
     /*font-family: 'Share Tech Mono', monospace;*/
     font-family: 'Ubuntu Mono', monospace;    
     /*background-color: rgba(0, 0, 0, 0.7);*/
-    background-color: rgba(150, 240, 255, 0.3);
+    /*background-color: rgba(20, 110, 125, 0.75);*/
+    background-color: rgba(0, 10, 25, 0.55);
     z-index: 1000;
         
     -webkit-clip-path: polygon(5% 0%, 100% 0%, 100% 90%, 95% 100%, 0% 100%, 0% 10%);
@@ -51,6 +52,7 @@
     position: fixed;
     left: 0;
     bottom: 0;
+    padding-bottom: 15px;
     width: 100%;    
     user-select: none;
     transition: bottom 0.4s;
@@ -74,6 +76,7 @@
     border: none;
     color: #ffffff;
     font-size: 1.05rem;
+    font-weight: 800;
     outline: none;
     cursor: pointer;
     display: inline-flex;
@@ -84,6 +87,16 @@
     line-height: 0;
     -webkit-tap-highlight-color: transparent;
     position: relative;
+    transform: scale(0.95);
+    transition: transform 0.3s;
+}
+
+.vk-key:hover {
+    transform: scale(1.1);
+}
+
+.vk-key:active {
+    transform: scale(0.85);
 }
 
 
@@ -101,7 +114,7 @@
     transition: background-color .2s; 
 }
 
-.vk-key:hover .vk-key-hexagon_part {
+.vk-key:hover .vk-key-hexagon_part {    
     background: #98f0ff;    
 }
 
@@ -145,4 +158,34 @@
 
 .shift_correct {
     width: 25px;
+}
+
+/* rec hover and active */
+
+.vk-key-on-rec .vk-key-hexagon_part {
+    background-color: rgba(255, 99, 71, 1);    
+}
+
+.vk-key-on-rec .vk-key-text {
+    color: #dedede;
+}
+
+@media screen and (max-width: 859px) {
+    .material-icons {
+        width: 15px;
+        font-size: 14px;
+    }
+
+    .use-keyboard-input {        
+        margin: auto;
+        margin-top: 20px;
+    }
+
+    .vk-key {
+        width: 33px;
+        height: 36px; /*width + 10%*/
+        max-width: 50px;
+        margin: 1px;     
+        font-size: 14px;
+    }
 }

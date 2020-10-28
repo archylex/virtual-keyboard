@@ -23,7 +23,7 @@ class TextBox {
             const secondPart = this.textarea.value.substr(this.textarea.selectionEnd, this.textarea.value.length);
             this.carretPosition = this.textarea.selectionStart;
             this.textarea.value = firstPart + v + secondPart;
-            this.carretPosition++;
+            this.carretPosition += v.length;
             this.setCaretPosition(this.carretPosition);                         
         }
 
@@ -89,7 +89,8 @@ class Keyboard {
         capsLock: false,
         lang: 'en',
         shift: false,
-        sound: false
+        sound: false,
+        rec: false
     }
 
     audio = {
@@ -104,7 +105,9 @@ class Keyboard {
         hide: new Audio('assets/audio/close.wav')
     }
 
-    textArea = null
+    textArea = null;
+
+    rec = null;
 
     cssClasses = {
         keyboardClass: 'keyboard',
@@ -202,6 +205,39 @@ class Keyboard {
             }  
         }
 
+        const isChrome = !!window.chrome;
+        const lang = {
+            en: 'en-US',
+            ru: 'ru-RU'
+        }
+
+        let text_voice = ''
+
+        if (isChrome) {
+            window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+            keyLayout.push('rec'); 
+            this.rec = new SpeechRecognition();
+            this.rec.interimResults = false;            
+            this.rec.lang = lang[this.properties.lang];
+
+            this.rec.addEventListener('result', e => {
+                text_voice = Array.from(e.results)
+                                .map(result => result[0])
+                                .map(result => result.transcript)
+                                .join('');                    
+            });
+
+            this.rec.addEventListener("end", e => {                
+                this.textArea.typeText(text_voice + ' ');
+                text_voice = '';
+
+                if (this.properties.rec)
+                    this.rec.start();
+                else
+                    this.rec.stop();
+            });
+        }
+
         const createIconHTML = iconName => `<i class="material-icons">${iconName}</i>`;
 
         keyLayout.forEach(key => {
@@ -222,6 +258,19 @@ class Keyboard {
             keyElement.appendChild(hexagonPartText);
             
             switch (key) {
+                case 'rec':                                        
+                    keyText.innerHTML = createIconHTML('keyboard_voice');
+                    keyElement.setAttribute('name', 'Voice');
+                    keyElement.classList.toggle('vk-key-on-rec', this.properties.rec);
+                    keyElement.addEventListener('mouseup', () => {  
+                        this.properties.rec = !this.properties.rec;
+                        keyElement.classList.toggle('vk-key-on-rec', this.properties.rec);                        
+                        if (this.properties.rec)
+                            this.rec.start();
+                        else
+                            this.rec.stop();
+                    });                    
+                    break;
                 case 'backspace':
                     keyText.innerHTML = createIconHTML('backspace');
                     keyElement.setAttribute('name', 'Backspace');
@@ -260,8 +309,8 @@ class Keyboard {
                     keyElement.setAttribute('name', 'lang');
                     keyElement.addEventListener('mousedown', () => {
                         this.properties.lang = this.properties.lang === 'en' ? 'ru' : 'en';    
-                        this.elements.keyContainer.innerHTML = '';                        
-                        this.elements.keyContainer.appendChild(this._createKeys());                          
+                        this.createNewKeys();       
+                        this.rec.lang = lang[this.properties.lang];                 
                         if (this.properties.sound)
                             this.audio.lang.play(); 
                     });
@@ -318,8 +367,7 @@ class Keyboard {
                     keyElement.classList.toggle('vk-key-on', this.properties.shift);
                     keyElement.addEventListener('mousedown', () => {
                         this.properties.shift = !this.properties.shift;
-                        this.elements.keyContainer.innerHTML = '';                        
-                        this.elements.keyContainer.appendChild(this._createKeys());
+                        this.createNewKeys();
                         keyElement.classList.toggle('vk-key-on', this.properties.shift);
                         if (this.properties.shift) 
                             this._createKeys('en', true);
@@ -396,6 +444,11 @@ class Keyboard {
         return fragment;
     }
 
+    createNewKeys() {
+        this.elements.keyContainer.innerHTML = '';                        
+        this.elements.keyContainer.appendChild(this._createKeys());
+    }
+
     show() {
         if (!this.properties.show) {
             this.properties.show = true;
@@ -447,6 +500,12 @@ window.addEventListener('DOMContentLoaded', () => {
                     keyboard.properties.capsLock = !keyboard.properties.capsLock;
                     e.classList.toggle('vk-key-on', keyboard.properties.capsLock);
                 }
+
+                if (keyName == 'Shift') {
+                    keyboard.properties.shift = true;
+                    e.classList.toggle('vk-key-on', keyboard.properties.shift);
+                    keyboard.createNewKeys();
+                }
             }
         })
     }, false);
@@ -459,6 +518,44 @@ window.addEventListener('DOMContentLoaded', () => {
             if (e.getAttribute('name') == keyName) {                
                 e.classList.remove('vk-key-active');
             }
+
+            if (keyName == 'Shift') {
+                keyboard.properties.shift = false;
+                e.classList.toggle('vk-key-on', keyboard.properties.shift);
+                keyboard.createNewKeys();
+            }
         })
     }, false);
+
+
+    /* speech */
+    const isChrome = !!window.chrome;
+
+    const lang = {
+        en: 'en-US',
+        ru: 'ru-RU'
+    }
+    window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+    const recognition = new SpeechRecognition();
+    recognition.interimResults = true;
+    recognition.lang = lang[keyboard.properties.lang];
+        
+    recognition.addEventListener('result', e => {
+      const transcript = Array.from(e.results)
+        .map(result => result[0])
+        .map(result => result.transcript)
+        .join('');
+  
+        const poopScript = transcript.replace(/poop|poo|shit|dump/gi, '💩');
+        
+        console.log(poopScript);
+  
+        if (e.results[0].isFinal) {
+          // clear text field ?
+        }
+    });
+  
+    recognition.addEventListener('end', recognition.start);
+    //recognition.start();
 })
