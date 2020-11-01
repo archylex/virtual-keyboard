@@ -15,8 +15,11 @@ window.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (event) => {
         const keyName = event.key;
 
-        if (keyName.length === 1 && keyName != ' ') {
-            nowLang = ((keyName.charCodeAt(0) >= 97 && keyName.charCodeAt(0) <= 122) || (keyName.charCodeAt(0) >= 65 && keyName.charCodeAt(0) <= 90)) ? 'en' : 'ru';
+        if (keyName.length === 1) {
+            if (keyName.charCodeAt(0) >= 1040 && keyName.charCodeAt(0) <= 1103)
+                nowLang = 'ru';
+            if ((keyName.charCodeAt(0) >= 97 && keyName.charCodeAt(0) <= 122) || (keyName.charCodeAt(0) >= 65 && keyName.charCodeAt(0) <= 90))
+                nowLang = 'en';
                
             if (keyboard.properties.lang != nowLang) {
                 keyboard.properties.lang = nowLang;
