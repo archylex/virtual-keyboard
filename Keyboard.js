@@ -137,10 +137,11 @@ class Keyboard {
             this.rec.lang = lang[this.properties.lang];
 
             this.rec.addEventListener('result', e => {
-                text_voice = Array.from(e.results)
+                /* text_voice = Array.from(e.results)
                                 .map(result => result[0])
                                 .map(result => result.transcript)
-                                .join('');                    
+                                .join(''); */                   
+                text_voice = e.results[0][0].transcript;
             });
 
             this.rec.addEventListener("end", e => {                
